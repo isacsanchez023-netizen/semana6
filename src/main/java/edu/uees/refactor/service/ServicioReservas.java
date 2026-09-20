@@ -3,13 +3,19 @@ package edu.uees.refactor.service;
 import edu.uees.refactor.domain.Reserva;
 
 public class ServicioReservas {
+    private final NotificadorReserva notificador;
+
+    public ServicioReservas() {
+        this.notificador = new NotificadorReserva();
+    }
+
     public void procesarReserva(Reserva reserva, int horasAnticipacion) {
         if (reserva == null || reserva.getCliente() == null || reserva.isCancelada() || horasAnticipacion < 2) {
             return;
         }
 
-        System.out.println("Procesando reserva: " + reserva.getId());
+        notificador.notificarProcesamiento(reserva);
         reserva.confirmar();
-        System.out.println("Reserva confirmada");
+        notificador.notificarConfirmacion();
     }
 }
